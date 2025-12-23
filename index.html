@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>National Parks Atlas · AI Concierge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <header class="hero">
+    <div class="hero__top">
+      <div class="logo-pill">
+        <div class="logo-pill__icon">🏞️</div>
+        <div class="logo-pill__text">
+          <p class="eyebrow">National Parks</p>
+          <p class="title">A–Z Atlas</p>
+        </div>
+      </div>
+      <div class="hero__actions">
+        <button class="ghost">Live map</button>
+        <button class="primary">Launch AI concierge</button>
+      </div>
+    </div>
+
+    <div class="hero__body">
+      <div class="hero__copy">
+        <p class="eyebrow">Immersive 3D atlas</p>
+        <h1>Design-forward AI guide to every U.S. National Park.</h1>
+        <p class="lead">
+          Explore all 63 parks with cinematic cards, emoji-forward iconography, and an AI concierge that curates
+          routes, seasons, and activities for your mood.
+        </p>
+        <div class="hero__cta-row">
+          <button class="primary">Design my trip</button>
+          <button class="ghost">See all parks A–Z</button>
+          <div class="stacked-emoji">
+            <span>🏔️</span><span>🌋</span><span>🏜️</span><span>🌲</span>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat">
+            <p class="stat__number" id="countParks">63</p>
+            <p class="stat__label">National Parks</p>
+          </div>
+          <div class="stat">
+            <p class="stat__number">3D</p>
+            <p class="stat__label">Iconic map markers</p>
+          </div>
+          <div class="stat">
+            <p class="stat__number">AI</p>
+            <p class="stat__label">Concierge itineraries</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="floating-map" id="heroMap"></div>
+        <div class="badge-stack">
+          <div class="badge">✨ Ultramodern UI</div>
+          <div class="badge">🧭 Smart routing</div>
+          <div class="badge">🌈 Gradient mood</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="controls">
+      <div class="controls__grid">
+        <label class="field">
+          <span class="label">Search</span>
+          <input id="searchInput" type="search" placeholder="Search by park, vibe, or activity…" />
+        </label>
+        <label class="field">
+          <span class="label">Region</span>
+          <select id="regionSelect">
+            <option value="all">All regions</option>
+            <option value="Pacific">Pacific</option>
+            <option value="Pacific Northwest">Pacific Northwest</option>
+            <option value="Rocky Mountains">Rocky Mountains</option>
+            <option value="Great Plains">Great Plains</option>
+            <option value="Southwest">Southwest</option>
+            <option value="Southeast">Southeast</option>
+            <option value="South">South</option>
+            <option value="Appalachia">Appalachia</option>
+            <option value="Midwest">Midwest</option>
+            <option value="Northeast">Northeast</option>
+            <option value="Alaska">Alaska</option>
+            <option value="Caribbean">Caribbean</option>
+            <option value="Great Basin">Great Basin</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="label">Season</span>
+          <select id="seasonSelect">
+            <option value="all">Any time of year</option>
+            <option value="Winter">Winter</option>
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+            <option value="Fall">Fall</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="label">Environment</span>
+          <select id="environmentSelect">
+            <option value="all">Any vibe</option>
+            <option value="Coastal">Coastal</option>
+            <option value="Mountains">Mountains</option>
+            <option value="Desert">Desert</option>
+            <option value="Forest">Forest</option>
+            <option value="Islands">Islands</option>
+            <option value="Canyon">Canyon</option>
+          </select>
+        </label>
+      </div>
+      <div class="chip-row" id="activityChips">
+        <button class="chip" data-activity="hiking">🥾 Hiking</button>
+        <button class="chip" data-activity="kayaking">🛶 Water</button>
+        <button class="chip" data-activity="stargazing">✨ Night skies</button>
+        <button class="chip" data-activity="wildlife">🐻 Wildlife</button>
+        <button class="chip" data-activity="history">🏛️ Culture</button>
+      </div>
+    </section>
+
+    <section class="map-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Map view</p>
+          <h2>3D emoji map of every park</h2>
+        </div>
+        <div class="panel__legend">
+          <span class="legend-dot legend-west"></span> West
+          <span class="legend-dot legend-mountain"></span> Mountains
+          <span class="legend-dot legend-coast"></span> Coastal
+        </div>
+      </div>
+      <div class="map-shell">
+        <div class="map" id="map"></div>
+        <div class="map-card" id="mapSpotlight">
+          <p class="eyebrow">Park spotlight</p>
+          <h3 id="spotlightName">Select a park</h3>
+          <p id="spotlightDesc">Hover or tap a marker to see details, seasons, and signature experiences.</p>
+          <div class="tag-row" id="spotlightTags"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">A–Z</p>
+          <h2>All U.S. National Parks</h2>
+        </div>
+        <div class="pill">Dynamic cards • 3D hover • Emoji icons</div>
+      </div>
+      <div class="card-grid" id="parkGrid"></div>
+    </section>
+
+    <section class="concierge" id="concierge">
+      <div>
+        <p class="eyebrow">AI concierge</p>
+        <h2>Tell us your vibe—we’ll craft the route.</h2>
+        <p class="lead">Mix emojis, words, and keywords. The concierge blends climate, seasonality, and iconic experiences.</p>
+        <div class="input-row">
+          <input id="promptInput" type="text" placeholder="Example: surreal desert sunrise, slot canyons, late October" />
+          <input id="daysInput" type="number" min="2" max="10" value="4" />
+          <button class="primary" id="generatePlan">Generate plan</button>
+        </div>
+        <div class="chip-row" id="moodChips">
+          <button class="chip" data-mood="desert">🏜️ Desert dream</button>
+          <button class="chip" data-mood="alpine">🏔️ Alpine epic</button>
+          <button class="chip" data-mood="coastal">🌊 Coastal chill</button>
+          <button class="chip" data-mood="forest">🌲 Forest baths</button>
+          <button class="chip" data-mood="islands">🏝️ Island escape</button>
+        </div>
+      </div>
+      <div class="plan" id="planOutput">
+        <p class="eyebrow">Itinerary preview</p>
+        <h3>Awaiting your prompt</h3>
+        <p class="muted">Share your vibe and we’ll suggest three parks with a mini itinerary.</p>
+      </div>
+    </section>
+
+    <section class="timeline">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Seasons</p>
+          <h2>Best months by vibe</h2>
+        </div>
+        <div class="pill">Quick picks</div>
+      </div>
+      <div class="timeline__grid" id="timelineGrid"></div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
